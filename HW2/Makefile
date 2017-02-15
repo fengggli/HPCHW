@@ -1,6 +1,7 @@
 ## Compiler, tools and options
 CC      = cc
-CCFLAGS = -O3 -Wall -Wextra  -g
+CCFLAGS = -O3
+#CCFLAGS =  -Wall -Wextra  
 
 ## PAPI Setup
 PAPI_ROOT  = /opt/cray/papi/5.3.0

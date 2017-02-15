@@ -191,26 +191,28 @@ int main(int argc, char * argv[]){
         printf("****************************************************\n");
         printf("start No.%d experiment \n", j);
 
-        if(init_matrix(&B, N, 1) == 0){
-            printf("\trandom matrix B is generated \n");
-        }
-        if(init_matrix(&A, N, 1) == 0){
-            printf("\trandom matrix A is generated \n");
-        }
 
-        // start blas_version
-
-        if(init_matrix(&C_blas, N, 0) == 0){
-            printf("\tstart blas  version...\n");
-        }
-
-        blas_cal(C_blas, A, B, N);
-        //print_matrix(C_blas, N);
-        //printf("\t\tElapsed Time: %16.9f second\n", etime - btime);
         
 
         // can try different block size here
-        for(i = 0; i < 6; i++){
+        //for(i = 0; i < 6; i++){
+        for(i = 5; i >=0; i--){
+            if(init_matrix(&B, N, 1) == 0){
+                printf("\trandom matrix B is generated \n");
+            }
+            if(init_matrix(&A, N, 1) == 0){
+                printf("\trandom matrix A is generated \n");
+            }
+
+            // start blas_version
+
+            if(init_matrix(&C_blas, N, 0) == 0){
+                printf("\tstart blas  version...\n");
+            }
+
+            blas_cal(C_blas, A, B, N);
+            //print_matrix(C_blas, N);
+            //printf("\t\tElapsed Time: %16.9f second\n", etime - btime);
             printf("start block size: %d... \n", block_size[i] );
 
 
@@ -256,12 +258,13 @@ int main(int argc, char * argv[]){
                 return -1;
             }
             free_matrix(C);
-        }
         free_matrix(A);
         free_matrix(B);
         free_matrix(C_blas);
 
         printf("\tall matrix are freed\n"); 
+
+        }
     }
     // print average
     printf("the average cacluation time of %d runs:\n", NUM_EXP);
