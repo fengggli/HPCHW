@@ -1,0 +1,1200 @@
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 0... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 0... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 0... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 1:	 1.336090 s, 1.607289 gflops, L1 data access 4304140502.000000 , L1 data miss 88602897.000000, miss rate 0.020586, tlb mis 71007.000000
+Application 7580570 resources: utime ~5s, stime ~1s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 1... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 1... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 1... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 2:	 1.159179 s, 1.852591 gflops, L1 data access 3833330234.000000 , L1 data miss 131127999.000000, miss rate 0.034207, tlb mis 70905.000000
+Application 7580571 resources: utime ~4s, stime ~0s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 2... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 2... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 2... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 4:	 1.071515 s, 2.004157 gflops, L1 data access 3565501656.000000 , L1 data miss 81223482.000000, miss rate 0.022780, tlb mis 71013.000000
+Application 7580572 resources: utime ~4s, stime ~0s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 3... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 3... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 3... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 8:	 1.005431 s, 2.135883 gflops, L1 data access 3360312878.000000 , L1 data miss 85933094.000000, miss rate 0.025573, tlb mis 70995.000000
+Application 7580573 resources: utime ~4s, stime ~0s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 4... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 4... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 4... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 16:	 1.046430 s, 2.052199 gflops, L1 data access 3294381598.000000 , L1 data miss 143001482.000000, miss rate 0.043408, tlb mis 70984.000000
+Application 7580575 resources: utime ~4s, stime ~0s, Rss ~38636, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 5... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 5... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 5... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 32:	 1.003277 s, 2.140469 gflops, L1 data access 3261285601.000000 , L1 data miss 143742944.000000, miss rate 0.044076, tlb mis 71005.000000
+Application 7580576 resources: utime ~4s, stime ~0s, Rss ~38636, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 6... 
+10.609601432457 != 5.304800916058
+calculation not correct, now exit
+Application 7580577 exit codes: 255
+Application 7580577 resources: utime ~2s, stime ~1s, Rss ~38548, inblocks ~13093, outblocks ~57762
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 0... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 0... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 0... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 1:	 1.347482 s, 1.593701 gflops, L1 data access 4298870653.000000 , L1 data miss 84793309.000000, miss rate 0.019725, tlb mis 38179.000000
+Application 7580578 resources: utime ~5s, stime ~0s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 1... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 1... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 1... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 2:	 1.161887 s, 1.848272 gflops, L1 data access 3794642627.000000 , L1 data miss 111995597.000000, miss rate 0.029514, tlb mis 38138.000000
+Application 7580579 resources: utime ~4s, stime ~0s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 2... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 2... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 2... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 4:	 1.054199 s, 2.037076 gflops, L1 data access 3525665379.000000 , L1 data miss 68105648.000000, miss rate 0.019317, tlb mis 38189.000000
+Application 7580580 resources: utime ~4s, stime ~0s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 3... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 3... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 3... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 8:	 1.005381 s, 2.135990 gflops, L1 data access 3356827930.000000 , L1 data miss 65359282.000000, miss rate 0.019471, tlb mis 38176.000000
+Application 7580581 resources: utime ~4s, stime ~0s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 4... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 4... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 4... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 16:	 1.020142 s, 2.105084 gflops, L1 data access 3289950745.000000 , L1 data miss 120239948.000000, miss rate 0.036548, tlb mis 38185.000000
+Application 7580582 resources: utime ~4s, stime ~1s, Rss ~38636, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 5... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 5... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 5... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 32:	 1.046007 s, 2.053029 gflops, L1 data access 3257210257.000000 , L1 data miss 138807189.000000, miss rate 0.042615, tlb mis 38206.000000
+Application 7580583 resources: utime ~4s, stime ~1s, Rss ~38636, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 6... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 6... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 6... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 64:	 0.998428 s, 2.150865 gflops, L1 data access 3239664664.000000 , L1 data miss 138803719.000000, miss rate 0.042845, tlb mis 38167.000000
+Application 7580584 resources: utime ~4s, stime ~0s, Rss ~38636, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 0... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 0... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 0... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 1:	 1.252265 s, 1.714879 gflops, L1 data access 4346699023.000000 , L1 data miss 36815527.000000, miss rate 0.008470, tlb mis 24123.000000
+Application 7580586 resources: utime ~5s, stime ~0s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 1... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 1... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 1... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 2:	 1.180221 s, 1.819560 gflops, L1 data access 3825299784.000000 , L1 data miss 48220139.000000, miss rate 0.012606, tlb mis 24231.000000
+Application 7580587 resources: utime ~4s, stime ~0s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 2... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 2... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 2... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 4:	 0.965253 s, 2.224789 gflops, L1 data access 3507414692.000000 , L1 data miss 35433632.000000, miss rate 0.010102, tlb mis 24032.000000
+Application 7580588 resources: utime ~4s, stime ~1s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 3... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 3... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 3... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 8:	 0.929440 s, 2.310514 gflops, L1 data access 3357994427.000000 , L1 data miss 35283780.000000, miss rate 0.010507, tlb mis 24107.000000
+Application 7580589 resources: utime ~4s, stime ~0s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 4... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 4... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 4... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 16:	 0.942380 s, 2.278788 gflops, L1 data access 3290820215.000000 , L1 data miss 66328675.000000, miss rate 0.020156, tlb mis 24213.000000
+Application 7580591 resources: utime ~4s, stime ~0s, Rss ~38636, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 5... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 5... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 5... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 32:	 0.957535 s, 2.242722 gflops, L1 data access 3256415434.000000 , L1 data miss 74177066.000000, miss rate 0.022779, tlb mis 23933.000000
+Application 7580593 resources: utime ~4s, stime ~0s, Rss ~38636, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 6... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 6... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 6... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 64:	 0.982722 s, 2.185241 gflops, L1 data access 3238765237.000000 , L1 data miss 137011290.000000, miss rate 0.042304, tlb mis 23979.000000
+Application 7580595 resources: utime ~4s, stime ~0s, Rss ~38636, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 0... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 0... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 0... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 1:	 1.330359 s, 1.614214 gflops, L1 data access 4335026513.000000 , L1 data miss 22372084.000000, miss rate 0.005161, tlb mis 57373.000000
+Application 7580599 resources: utime ~5s, stime ~1s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 1... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 1... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 1... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 2:	 1.220427 s, 1.759617 gflops, L1 data access 3808908033.000000 , L1 data miss 33628031.000000, miss rate 0.008829, tlb mis 57378.000000
+Application 7580601 resources: utime ~5s, stime ~0s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 2... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 2... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 2... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 4:	 1.173708 s, 1.829658 gflops, L1 data access 3528632899.000000 , L1 data miss 24985622.000000, miss rate 0.007081, tlb mis 57289.000000
+Application 7580603 resources: utime ~4s, stime ~0s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 3... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 3... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 3... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 8:	 1.172652 s, 1.831305 gflops, L1 data access 3383853700.000000 , L1 data miss 23966205.000000, miss rate 0.007083, tlb mis 57248.000000
+Application 7580604 resources: utime ~4s, stime ~0s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 4... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 4... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 4... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 16:	 1.084763 s, 1.979681 gflops, L1 data access 3315050724.000000 , L1 data miss 36462269.000000, miss rate 0.010999, tlb mis 52120.000000
+Application 7580607 resources: utime ~4s, stime ~1s, Rss ~38636, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 5... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 5... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 5... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 32:	 1.118481 s, 1.920001 gflops, L1 data access 3325321302.000000 , L1 data miss 37664209.000000, miss rate 0.011326, tlb mis 51877.000000
+Application 7580608 resources: utime ~4s, stime ~0s, Rss ~38636, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 6... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 6... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 6... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 64:	 1.238367 s, 1.734125 gflops, L1 data access 3255126000.000000 , L1 data miss 136328662.000000, miss rate 0.041881, tlb mis 51995.000000
+Application 7580612 resources: utime ~5s, stime ~0s, Rss ~38636, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 0... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 0... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 0... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 1:	 1.378384 s, 1.557972 gflops, L1 data access 4325038048.000000 , L1 data miss 17990651.000000, miss rate 0.004160, tlb mis 459522.000000
+Application 7580613 resources: utime ~5s, stime ~0s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 1... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 1... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 1... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 2:	 1.271485 s, 1.688957 gflops, L1 data access 3800129971.000000 , L1 data miss 23100351.000000, miss rate 0.006079, tlb mis 358145.000000
+Application 7580614 resources: utime ~5s, stime ~0s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 2... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 2... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 2... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 4:	 1.224492 s, 1.753775 gflops, L1 data access 3515460171.000000 , L1 data miss 19462047.000000, miss rate 0.005536, tlb mis 349697.000000
+Application 7580615 resources: utime ~5s, stime ~0s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 3... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 3... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 3... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 8:	 1.201843 s, 1.786825 gflops, L1 data access 3379185387.000000 , L1 data miss 17961520.000000, miss rate 0.005315, tlb mis 451813.000000
+Application 7580616 resources: utime ~5s, stime ~0s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 4... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 4... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 4... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 16:	 1.200884 s, 1.788252 gflops, L1 data access 3320105055.000000 , L1 data miss 33564046.000000, miss rate 0.010109, tlb mis 468526.000000
+Application 7580617 resources: utime ~5s, stime ~0s, Rss ~38636, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 5... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 5... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 5... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 32:	 1.154635 s, 1.859881 gflops, L1 data access 3322133017.000000 , L1 data miss 22616309.000000, miss rate 0.006808, tlb mis 442660.000000
+Application 7580620 resources: utime ~4s, stime ~0s, Rss ~38636, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 6... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 6... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 6... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 64:	 1.499844 s, 1.431805 gflops, L1 data access 3273190794.000000 , L1 data miss 136345509.000000, miss rate 0.041655, tlb mis 450751.000000
+Application 7580621 resources: utime ~5s, stime ~0s, Rss ~38636, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 0... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 0... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 0... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 1:	 1.676341 s, 1.281054 gflops, L1 data access 4306889000.000000 , L1 data miss 20043465.000000, miss rate 0.004654, tlb mis 2104160.000000
+Application 7580622 resources: utime ~6s, stime ~0s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 1... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 1... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 1... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 2:	 1.538015 s, 1.396270 gflops, L1 data access 3774122001.000000 , L1 data miss 24805286.000000, miss rate 0.006572, tlb mis 2103072.000000
+Application 7580623 resources: utime ~6s, stime ~1s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 2... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 2... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 2... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 4:	 1.492478 s, 1.438871 gflops, L1 data access 3502348518.000000 , L1 data miss 23313549.000000, miss rate 0.006657, tlb mis 2103002.000000
+Application 7580624 resources: utime ~5s, stime ~1s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 3... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 3... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 3... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 8:	 1.500904 s, 1.430794 gflops, L1 data access 3365730802.000000 , L1 data miss 20301036.000000, miss rate 0.006032, tlb mis 2104087.000000
+Application 7580625 resources: utime ~5s, stime ~1s, Rss ~38632, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 4... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 4... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 4... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 16:	 1.397948 s, 1.536168 gflops, L1 data access 3303686794.000000 , L1 data miss 20380608.000000, miss rate 0.006169, tlb mis 2104044.000000
+Application 7580626 resources: utime ~5s, stime ~0s, Rss ~38636, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 5... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 5... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 5... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 32:	 1.334287 s, 1.609462 gflops, L1 data access 3305777764.000000 , L1 data miss 16761528.000000, miss rate 0.005070, tlb mis 2103983.000000
+Application 7580627 resources: utime ~5s, stime ~0s, Rss ~38636, inblocks ~13093, outblocks ~57764
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 6... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 6... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 6... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+unroll level 64:	 1.604167 s, 1.338691 gflops, L1 data access 3264352140.000000 , L1 data miss 138158426.000000, miss rate 0.042323, tlb mis 2104137.000000
+Application 7580628 resources: utime ~6s, stime ~1s, Rss ~38636, inblocks ~13093, outblocks ~57764
