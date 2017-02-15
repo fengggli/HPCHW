@@ -1,4 +1,4 @@
-blk_size  unroll_level    gflops  l1_da    l1_ia  i1_im l1_imr
+blk_size  unroll_level   l1_da    l1_ia  i1_im l1_imr
 
 128	1	1199305344.000000	1231.000000	0.000001
 128	2	1204008632.000000	1291.000000	0.000001
