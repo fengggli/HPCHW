@@ -1,0 +1,35 @@
+csci 590 HPC Lab 1
+Seq matrix multiplication
+by Feng Li, Jan 2017
+
+Comparison of six different version of sequential matrix multiplication. PAPI is used to analyze the performance.
+
+how to:
+    1. run Make to build the project
+    2. bigred.job is the sample batch file, which will generate all the temporary and summary results 
+
+RESULTS:
+    Results_O0: without complier optimization
+    Results_O3: with complier optimization
+
+see the source file for more details
+
+
+Lab2:
+    use fix matrix size
+    loop rolling
+        try loop size 1,2,4,8
+        outer loop step
+    
+    blocking:
+        block size 64, 128, 256, 512, 1024, 2048
+        innner loop step
+
+    
+
+
+
+    
+
+
+

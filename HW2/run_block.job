@@ -1,0 +1,22 @@
+#!/bin/bash  
+#PBS -N unroll_matrix_mul
+#PBS -q cpu 
+#PBS -j oe
+#PBS -l walltime=00:10:00
+#PBS -l nodes=4:ppn=32
+#PBS -o results/$PBS_JOBID.output
+
+RESULTDIR=${PBS_O_WORKDIR}/results/
+
+mkdir -pv ${RESULTDIR}
+cd $PBS_O_WORKDIR
+
+
+for N in 1024
+do
+    #aprun -n 1 -N 1 -d 1 run_block ${N} 1>${RESULTDIR}/block.log 2>${RESULTDIR}/block.summary
+    aprun -n 1 -N 1 -d 1 run_unroll ${N} 1>${RESULTDIR}/unroll.log 2>${RESULTDIR}/unroll.summary
+done
+
+echo "finish now exit"
+

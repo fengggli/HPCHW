@@ -1,0 +1,29 @@
+#!/bin/bash  
+#PBS -N utility_test
+#PBS -q cpu 
+#PBS -j oe
+#PBS -l walltime=00:5:00
+#PBS -l nodes=1:ppn=32
+#PBS -o results/$PBS_JOBID.test
+
+cd $PBS_O_WORKDIR
+
+echo "preset event"
+
+aprun -n 1 papi_avail –a
+
+echo "native event"
+
+aprun -n 1 papi_native_avail
+
+echo "check event compatiable with PAPI_L!_TCM"
+
+aprun -n1 papi_event_chooser PRESET PAPI_L1_TCM
+
+echo "check event compatiable with PAPI_L1_TCM  and PAPI_TLB_TL"
+aprun -n1 papi_event_chooser PRESET PAPI_L1_TCM PAPI_TLB_TL
+
+
+
+
+
