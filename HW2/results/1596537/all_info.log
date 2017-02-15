@@ -1,0 +1,196 @@
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 0... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 0... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 0... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+Application 7581269 resources: utime ~5s, stime ~1s, Rss ~38620, inblocks ~13092, outblocks ~57763
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 1... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 1... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 1... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+Application 7581270 resources: utime ~4s, stime ~1s, Rss ~38620, inblocks ~13092, outblocks ~57763
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 2... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 2... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 2... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+Application 7581271 resources: utime ~4s, stime ~0s, Rss ~38620, inblocks ~13092, outblocks ~57763
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 3... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 3... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 3... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+Application 7581272 resources: utime ~4s, stime ~1s, Rss ~38620, inblocks ~13092, outblocks ~57763
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 4... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 4... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 4... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+Application 7581275 resources: utime ~4s, stime ~1s, Rss ~38624, inblocks ~13092, outblocks ~57763
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 5... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 5... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 5... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+Application 7581276 resources: utime ~4s, stime ~0s, Rss ~38624, inblocks ~13092, outblocks ~57763
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 6... 
+correct
+	all matrix are freed
+****************************************************
+start No.1 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 6... 
+correct
+	all matrix are freed
+****************************************************
+start No.2 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start unrolling level 6... 
+correct
+	all matrix are freed
+the average cacluation time of 3 runs:
+scalar = 2.147484
+Application 7581277 resources: utime ~4s, stime ~1s, Rss ~38624, inblocks ~13092, outblocks ~57763
