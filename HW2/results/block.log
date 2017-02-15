@@ -1,0 +1,33 @@
+matrix all have dimension 1024 x 1024
+****************************************************
+start No.0 experiment 
+	random matrix B is generated 
+	random matrix A is generated 
+	start blas  version...
+start block size: 32... 
+correct
+start block size: 64... 
+correct
+start block size: 128... 
+correct
+start block size: 256... 
+correct
+start block size: 512... 
+correct
+start block size: 1024... 
+correct
+	all matrix are freed
+the average cacluation time of 1 runs:
+scalar = 2.147484
+block size 32:	 0.937750 s, 2.290038 gflops, L1 data access 2339611245.000000 , L1 data miss 281467507.000000, miss rate 0.120305, tlb mis 71771.000000
+scalar = 2.147484
+block size 64:	 0.824013 s, 2.606128 gflops, L1 data access 2119869136.000000 , L1 data miss 163427115.000000, miss rate 0.077093, tlb mis 39094.000000
+scalar = 2.147484
+block size 128:	 0.631292 s, 3.401727 gflops, L1 data access 2001045781.000000 , L1 data miss 123129514.000000, miss rate 0.061533, tlb mis 24745.000000
+scalar = 2.147484
+block size 256:	 0.650903 s, 3.299238 gflops, L1 data access 1962740310.000000 , L1 data miss 105705211.000000, miss rate 0.053856, tlb mis 55495.000000
+scalar = 2.147484
+block size 512:	 1.092596 s, 1.965487 gflops, L1 data access 2385194177.000000 , L1 data miss 37874215.000000, miss rate 0.015879, tlb mis 427289.000000
+scalar = 2.147484
+block size 1024:	 1.137289 s, 1.888248 gflops, L1 data access 2427353795.000000 , L1 data miss 54103079.000000, miss rate 0.022289, tlb mis 2102879.000000
+Application 7552727 resources: utime ~6s, stime ~0s, Rss ~36464, inblocks ~11732, outblocks ~54816
