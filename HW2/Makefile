@@ -1,6 +1,6 @@
 ## Compiler, tools and options
 CC      = cc
-CCFLAGS = -O3
+CCFLAGS = -O3 
 #CCFLAGS =  -Wall -Wextra  
 
 ## PAPI Setup

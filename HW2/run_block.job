@@ -1,22 +1,33 @@
 #!/bin/bash  
-#PBS -N unroll_matrix_mul
+#PBS -N unroll_block_mul
 #PBS -q cpu 
 #PBS -j oe
 #PBS -l walltime=00:10:00
-#PBS -l nodes=4:ppn=32
+#PBS -l nodes=1:ppn=32
 #PBS -o results/$PBS_JOBID.output
 
-RESULTDIR=${PBS_O_WORKDIR}/results/
+RESULTDIR=${PBS_O_WORKDIR}/results
 
 mkdir -pv ${RESULTDIR}
 cd $PBS_O_WORKDIR
 
+# clear previous results
+rm -rf ${RESULTDIR}/*.log
+rm -rf ${RESULTDIR}/*.summary
 
-for N in 1024
+echo "blk_size        unroll_level    gflops  l1_a    l1_m    L1MR    l2_a    l2_m    L2MR    TLBM" > ${RESULTDIR}/*.summary
+
+N=1024
+
+# test different block sizes
+for block_size in 32 64 128 256 512 1024
 do
-    #aprun -n 1 -N 1 -d 1 run_block ${N} 1>${RESULTDIR}/block.log 2>${RESULTDIR}/block.summary
-    aprun -n 1 -N 1 -d 1 run_unroll ${N} 1>${RESULTDIR}/unroll.log 2>${RESULTDIR}/unroll.summary
+    for loop_size in 0 1 2 3 4 5 6
+    do
+        aprun -n 1 -N 1 -d 1 run_unroll ${N} ${block_size} ${loop_size} 1>>${RESULTDIR}/block.log 2>>${RESULTDIR}/block.summary
+    done
 done
+
 
 echo "finish now exit"
 

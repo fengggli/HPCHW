@@ -1,5 +1,41 @@
 #include "run_unroll.h"
 
+// preprocessor for unrolling
+// unroll_0 means 2^0 loop size, no unrolling
+// unroll_3 means 2^3 loop size, using size-8 loop
+#define UNROLL_1(N) \
+    C[(i+ii)*n +j+jj +(N) ] += tmp* B[(k+kk)*n + j+ jj + (N)];
+
+#define UNROLL_2(N) \
+    UNROLL_1(2*(N)) \
+    UNROLL_1(2*(N)+1)
+
+#define UNROLL_4(N) \
+    UNROLL_2(2*(N)) \
+    UNROLL_2(2*(N) +1)
+
+#define UNROLL_8(N) \
+    UNROLL_4(2*(N)) \
+    UNROLL_4(2*(N) +1)
+
+#define UNROLL_16(N) \
+    UNROLL_8(2*(N)) \
+    UNROLL_8(2*(N) +1)
+
+#define UNROLL_32(N) \
+    UNROLL_16(2*(N)) \
+    UNROLL_16(2*(N) +1)
+
+
+#define UNROLL_64(N) \
+    UNROLL_32(2*(N)) \
+    UNROLL_32(2*(N) +1)
+
+
+
+
+
+
 
 
 // actual 
@@ -33,14 +69,12 @@ void seq_cal_ikj_block(double *C, double *A, double *B, int n, int b){
 
 void seq_cal_ikj_unroll_2(double *C, double *A, double *B, int n, int b){
     int i, j, k, ii, jj, kk;
-
     if(n%b){
         printf("warning: b should be divisible by n\n");
         exit(-1);
     }
     register float tmp;
-
-
+    
     for(i = 0; i < n; i+= b){
         for(k = 0; k < n; k+=b){
             for(j = 0; j < n; j+=b){
@@ -51,9 +85,7 @@ void seq_cal_ikj_unroll_2(double *C, double *A, double *B, int n, int b){
                     for(kk = 0; kk < b; kk++ ){
                         for(jj = 0; jj < b ;jj+=2){
                                 tmp = A[(i+ii)*n + k + kk];
-                                
-                                C[(i+ii)*n +j+jj] +=tmp* B[(k+kk)*n + j+ jj];
-                                C[(i+ii)*n +j+jj+1] += tmp* B[(k+kk)*n + j+ jj+1];
+                                UNROLL_2(0)
                         }
                     }
                 }
@@ -82,12 +114,8 @@ void seq_cal_ikj_unroll_4(double *C, double *A, double *B, int n, int b){
                     for(kk = 0; kk < b; kk++ ){
                         for(jj = 0; jj < b ;jj+=4){
                                 tmp = A[(i+ii)*n + k + kk];
-                                C[(i+ii)*n +j+jj] += tmp* B[(k+kk)*n + j+ jj];
-                                C[(i+ii)*n +j+jj+1] += tmp* B[(k+kk)*n + j+ jj+1];
-                                C[(i+ii)*n +j+jj+2] += tmp* B[(k+kk)*n + j+ jj+2];
-                                C[(i+ii)*n +j+jj+3] += tmp* B[(k+kk)*n + j+ jj+3];
-
-                        }
+                                UNROLL_4(0)
+                                                        }
                     }
                 }
                 // end of inner multiplication
@@ -116,18 +144,7 @@ void seq_cal_ikj_unroll_8(double *C, double *A, double *B, int n, int b){
                         for(jj = 0; jj < b ;jj+=8){
                                 
                                 tmp = A[(i+ii)*n + k + kk];
-                                
-                                C[(i+ii)*n +j+jj] += tmp* B[(k+kk)*n + j+ jj];
-                                C[(i+ii)*n +j+jj+1] += tmp* B[(k+kk)*n + j+ jj+1];
-                                C[(i+ii)*n +j+jj+2] += tmp* B[(k+kk)*n + j+ jj+2];
-                                C[(i+ii)*n +j+jj+3] += tmp* B[(k+kk)*n + j+ jj+3];
-                                C[(i+ii)*n +j+jj+4] += tmp* B[(k+kk)*n + j+ jj+4];
-                                C[(i+ii)*n +j+jj+5] += tmp* B[(k+kk)*n + j+ jj+5];
-                                C[(i+ii)*n +j+jj+6] += tmp* B[(k+kk)*n + j+ jj+6];
-                                C[(i+ii)*n +j+jj+7] += tmp* B[(k+kk)*n + j+ jj+7];
-
-
-
+                                UNROLL_8(0)
                         }
                     }
                 }
@@ -154,25 +171,8 @@ void seq_cal_ikj_unroll_16(double *C, double *A, double *B, int n, int b){
                 for(ii = 0; ii < b; ii++){
                     for(kk = 0; kk < b; kk++ ){
                         for(jj = 0; jj < b ;jj+=16){
-                                
                                 tmp = A[(i+ii)*n + k + kk];
-                                
-                                C[(i+ii)*n +j+jj] += tmp* B[(k+kk)*n + j+ jj];
-                                C[(i+ii)*n +j+jj+1] += tmp* B[(k+kk)*n + j+ jj+1];
-                                C[(i+ii)*n +j+jj+2] += tmp* B[(k+kk)*n + j+ jj+2];
-                                C[(i+ii)*n +j+jj+3] += tmp* B[(k+kk)*n + j+ jj+3];
-                                C[(i+ii)*n +j+jj+4] += tmp* B[(k+kk)*n + j+ jj+4];
-                                C[(i+ii)*n +j+jj+5] += tmp* B[(k+kk)*n + j+ jj+5];
-                                C[(i+ii)*n +j+jj+6] += tmp* B[(k+kk)*n + j+ jj+6];
-                                C[(i+ii)*n +j+jj+7] += tmp* B[(k+kk)*n + j+ jj+7];
-                                C[(i+ii)*n +j+jj+8] += tmp* B[(k+kk)*n + j+ jj+8];
-                                C[(i+ii)*n +j+jj+9] += tmp* B[(k+kk)*n + j+ jj+9];
-                                C[(i+ii)*n +j+jj+10] += tmp* B[(k+kk)*n + j+ jj+10];
-                                C[(i+ii)*n +j+jj+11] += tmp* B[(k+kk)*n + j+ jj+11];
-                                C[(i+ii)*n +j+jj+12] += tmp* B[(k+kk)*n + j+ jj+12];
-                                C[(i+ii)*n +j+jj+13] += tmp* B[(k+kk)*n + j+ jj+13];
-                                C[(i+ii)*n +j+jj+14] += tmp* B[(k+kk)*n + j+ jj+14];
-                                C[(i+ii)*n +j+jj+15] += tmp* B[(k+kk)*n + j+ jj+15];
+                                UNROLL_16(0)
                         }
                     }
                 }
@@ -182,6 +182,63 @@ void seq_cal_ikj_unroll_16(double *C, double *A, double *B, int n, int b){
     }
 }
 
+void seq_cal_ikj_unroll_32(double *C, double *A, double *B, int n, int b){
+    int i, j, k, ii, jj, kk;
+
+    if(n%b){
+        printf("warning: b should be divisible by n\n");
+        exit(-1);
+    }
+    register float tmp;
+
+    for(i = 0; i < n; i+= b){
+        for(k = 0; k < n; k+=b){
+            for(j = 0; j < n; j+=b){
+                // C(i,j) = C(i,j)+ A(i,k)*B(k,j)
+
+                //start inner block multiplication
+                for(ii = 0; ii < b; ii++){
+                    for(kk = 0; kk < b; kk++ ){
+                        for(jj = 0; jj < b ;jj+=32){
+                                tmp = A[(i+ii)*n + k + kk];
+                                UNROLL_32(0)
+                        }
+                    }
+                }
+                // end of inner multiplication
+            }
+        }
+    }
+}
+
+void seq_cal_ikj_unroll_64(double *C, double *A, double *B, int n, int b){
+    int i, j, k, ii, jj, kk;
+
+    if(n%b){
+        printf("warning: b should be divisible by n\n");
+        exit(-1);
+    }
+    register float tmp;
+
+    for(i = 0; i < n; i+= b){
+        for(k = 0; k < n; k+=b){
+            for(j = 0; j < n; j+=b){
+                // C(i,j) = C(i,j)+ A(i,k)*B(k,j)
+
+                //start inner block multiplication
+                for(ii = 0; ii < b; ii++){
+                    for(kk = 0; kk < b; kk++ ){
+                        for(jj = 0; jj < b ;jj+=64){
+                                tmp = A[(i+ii)*n + k + kk];
+                                UNROLL_64(0)
+                        }
+                    }
+                }
+                // end of inner multiplication
+            }
+        }
+    }
+}
 
 
 
@@ -301,15 +358,15 @@ int main(int argc, char * argv[]){
 
 
     // configurations
-    int unroll_level[] = {1,2,4,8};
+    int unroll_level[] = {1,2,4,8,16,32,64};
 
-    double total_time[6] = {0};
+    double total_time = 0;
     // l1 data cache access and L1 data cache miss
-    long long count_l1_a[6] = {0};
-    long long count_l1_m[6] = {0};
-    long long count_l2_a[6] = {0};
-    long long count_l2_m[6] = {0};
-    long long count_tlb_m[6] = {0};
+    long long count_l1_a = 0;
+    long long count_l1_m = 0;
+    long long count_l2_a = 0;
+    long long count_l2_m = 0;
+    long long count_tlb_m = 0;
 
     int Events[NUM_EVENTS]={PAPI_L1_DCA, PAPI_L1_DCM,PAPI_L2_DCA, PAPI_L2_DCM,PAPI_TLB_DM};
     int EventSet = PAPI_NULL;
@@ -339,12 +396,14 @@ int main(int argc, char * argv[]){
     block_size=atoi(argv[2]);
     i = atoi(argv[3]);
 
-    void (*unroll[5])(double*, double*, double*, int, int);                                                                                                                                                                                       
+    void (*unroll[10])(double*, double*, double*, int, int);                                                                                                                                                                                       
     unroll[0] = &seq_cal_ikj_block;
     unroll[1] = &seq_cal_ikj_unroll_2;
     unroll[2] = &seq_cal_ikj_unroll_4;
     unroll[3] = &seq_cal_ikj_unroll_8;
     unroll[4] = &seq_cal_ikj_unroll_16;
+    unroll[5] = &seq_cal_ikj_unroll_32;
+    unroll[6] = &seq_cal_ikj_unroll_64;
 
    
     // generate three input matrix
@@ -381,7 +440,7 @@ int main(int argc, char * argv[]){
             blas_cal(C_blas, A, B, N);
 
 
-            printf("start unrolling level: %d... \n", unroll_level[i]);
+            printf("start unrolling level %d... \n", i);
 
 
             init_matrix(&C, N, 0);
@@ -391,7 +450,10 @@ int main(int argc, char * argv[]){
             retval = PAPI_start (EventSet);
 
             //seq_cal_ikj_unroll(C,A,B,N,block_size, unroll_level[i]);
+            //unroll[i](C,A,B,N,block_size);
             unroll[i](C,A,B,N,block_size);
+            //seq_cal_ikj_unroll(C,A,B,N,  block_size, i);
+
 
 
             // get counter
@@ -400,12 +462,12 @@ int main(int argc, char * argv[]){
             //print_matrix(C, N);
             
             // sum to get avg
-            total_time[i] += etime-btime;
-            count_l1_a[i] += values[0];
-            count_l1_m[i] += values[1];
-            count_l2_a[i] += values[2];
-            count_l2_m[i] += values[3];
-            count_tlb_m[i] += values[4];
+            total_time += etime-btime;
+            count_l1_a += values[0];
+            count_l1_m += values[1];
+            count_l2_a += values[2];
+            count_l2_m += values[3];
+            count_tlb_m += values[4];
 
 
 
@@ -438,27 +500,27 @@ int main(int argc, char * argv[]){
     // print average
     printf("the average cacluation time of %d runs:\n", NUM_EXP);
 
-    fprintf(stderr, "N = %d", N);
+    //fprintf(stderr, "N = %d", N);
 
-    fprintf(stderr, "\nunroll_level\tgflops\tl1_a\tl1_m\tL1MR\tl2_a\tl2_m\tL2MR\tTLBM");
+    //fprintf(stderr, "\nblk_size\tunroll_level\tgflops\tl1_a\tl1_m\tL1MR\tl2_a\tl2_m\tL2MR\tTLBM");
 
     // floating point overflow
     double n = N;
     //for(i = 0; i <  4; i ++){
-        double avg_time = total_time[i]/NUM_EXP;
+        double avg_time = total_time/NUM_EXP;
         double scalar = 2*n*n*n*(1E-9);
         printf("scalar = %lf\n", scalar);
         double avg_gflops = scalar/avg_time;
-        double avg_l1_a = count_l1_a[i]/NUM_EXP;
-        double avg_l1_m = count_l1_m[i]/NUM_EXP;
-        double avg_l2_a = count_l2_a[i]/NUM_EXP;
-        double avg_l2_m = count_l2_m[i]/NUM_EXP;
+        double avg_l1_a = count_l1_a/NUM_EXP;
+        double avg_l1_m = count_l1_m/NUM_EXP;
+        double avg_l2_a = count_l2_a/NUM_EXP;
+        double avg_l2_m = count_l2_m/NUM_EXP;
         double avg_l1_mr = avg_l1_m/avg_l1_a;
         double avg_l2_mr = avg_l2_m/avg_l2_a;
-        double avg_tlb_m = count_tlb_m[i]/NUM_EXP;
+        double avg_tlb_m = count_tlb_m/NUM_EXP;
 
         printf("unroll level %d:\t %lf s, %lf gflops, L1 data access %lf , L1 data miss %lf, miss rate %lf, tlb mis %lf\n", unroll_level[i],avg_time, avg_gflops, avg_l1_a, avg_l1_m, avg_l1_mr, avg_tlb_m);
-        fprintf(stderr, "\n%d\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf", unroll_level[i], avg_gflops, avg_l1_a, avg_l1_m, avg_l1_mr, avg_l2_a, avg_l2_m, avg_l2_mr,avg_tlb_m);
+        fprintf(stderr, "\n%d\t%d\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf\t%lf",block_size, unroll_level[i], avg_gflops, avg_l1_a, avg_l1_m, avg_l1_mr, avg_l2_a, avg_l2_m, avg_l2_mr,avg_tlb_m);
     //}
 
     return 0;
