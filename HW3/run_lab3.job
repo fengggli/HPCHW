@@ -19,7 +19,7 @@ N=1024
 
 # test different block sizes
 #for block_size in 32 64 128 256 512 1024
-        aprun -n 16 run_summa ${N}  &>${RESULTDIR}/log
+        aprun -n 16 run_summa ${N}  1>${RESULTDIR}/log 2>${RESULTDIR}/err
 
 
 echo "finish now exit"

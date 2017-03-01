@@ -7,4 +7,6 @@
 #include <cblas.h>
 #include <math.h>
 
+#define NUM_EXP (3)
+
 #endif
