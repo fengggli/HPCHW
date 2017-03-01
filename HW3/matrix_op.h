@@ -13,13 +13,13 @@ extern void dgemm_(char * transa, char * transb, int * m, int * n, int * k,
  * matrix operation functions
  */
 
-// get the l-th col from size-n matrx A, saved that col in col;
-void get_col(double *A, double*col, int n, int l );
+// get the l-th colblock from size-n matrx A, saved that col in col;
+void get_col(double *A, double*col, int n, int l , int b);
 
 // get the i-th row from size-n matrix A, save into vector row
-void get_row(double *A, double*row, int n, int r );
+void get_row(double *A, double*row, int n, int r , int b);
 
 // update local C
-void update_local_C(double *C, double *col, double*row, int n);
+void update_local_C(double *C, double *col, double*row, int m, int n, int b );
 
 #endif

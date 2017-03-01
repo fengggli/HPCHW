@@ -3,25 +3,25 @@
  */
 #include "matrix_op.h"
 
-inline void get_col(double *A, double*col, int n, int l ){
+inline void get_col(double *A, double*col, int n, int l, int b ){
     int i,j;
     for(i = 0; i <n; i++){
         for(j = 0; j < n; j++){
-            if(j == l)
+            if(j/b == l)
                 *(col++) = A[i*n+j];
         }
     }
 }
 
-inline void get_row(double *A, double*row, int n, int r ){
+inline void get_row(double *A, double*row, int n, int r, int b){
     int j;
-    for(j = 0; j < n; j++){
-        *(row++) = A[r*n+j];
+    for(j = 0; j < n*b; j++){
+        *(row++) = A[r*n*b+j];
     }
 }
 
 
-inline void update_local_C(double *C, double *col, double*row, int n){
+inline void update_local_C(double *C, double *col, double*row, int m, int n, int b){
 
     /*
     int i, j;
@@ -31,9 +31,8 @@ inline void update_local_C(double *C, double *col, double*row, int n){
         }
     }
     */
-        int m,k;
-        m = n;
-        k = 1;
+        int k;
+        k = b;
 
         double  alpha =1;
         double  beta = 1;
