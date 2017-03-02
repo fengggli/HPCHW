@@ -18,7 +18,7 @@ cd $PBS_O_WORKDIR
 # test different block sizes
 #for block_size in 32 64 128 256 512 1024
 
-for N in 4096
+for N in 256 512 1024 2048 4096
 do
     for np in 4 16 64 256
     do
