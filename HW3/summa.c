@@ -148,7 +148,7 @@ int main(int argc, char * argv[]){
 
     int exp;
 
-    for(b = 1; b<=sub_N; b*=4){
+    for(b = 4; b<=sub_N; b*=2){
 
         double time_sum = 0;
         
