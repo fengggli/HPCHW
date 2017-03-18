@@ -71,16 +71,14 @@ The operation in the loop will be a multiplication of one column from A and one 
 		\Indp $C_{sub}$, output matrix}
 	\textbf{Begin} \\
 	$N_{sub}=N/sqrt(nprocs)$ \;
+	$row\_id = rank/procs\_side$\;
+	$col\_id = rank\%procs\_side$ \;
 	
-	$procs\_side=N/sqrt(nprocs)$ \;
-	$my\_row = rank/procs\_side$\;
-	$my\_col = rank\%procs\_side$ \;
-	
-	generate row communicator \textbf{row\_comm} using $my\_row$ \;
-	generate col communicator \textbf{col\_comm} using $my\_col$ \;
+	generate row communicator \textbf{row\_comm} using $row\_id$ \;
+	generate col communicator \textbf{col\_comm} using $col\_id$ \;
 
 	allocate space for column block $colblock$, size $N_{sub}*b$ \;
-	allocate space for row block $rowblock$, size $b*N_{sub})$ \;
+	allocate space for row block $rowblock$, size $b*N_{sub}$ \;
 
 	\For{$k=0;k<N/b;k++$}{
 		// check wheter i have the column \;
@@ -97,7 +95,7 @@ The operation in the loop will be a multiplication of one column from A and one 
 		// broadcast in the column direction\\
 		Mpi\_Bcast(row\_block, $ k*b/N_{sub}$, $col\_comm$)\;
 		// update local C submatrix
-		$C += colblock*rowblock$
+		$C_{sub} += colblock*rowblock$
 	}
 	
 	
@@ -116,7 +114,6 @@ The input matrix A and B are generated from root matrix and then divided and dis
 
 First experiment is to show how overall performance changes when we increase number of processes for various matrix sizes. From the result shown in figure \ref{fig:totalflops}, it's clear that four all the cases, more processes will produce higher total gflops. This is straightforward since more cpus are used during computation thus larger throughput can be delivered.
 \begin{figure}
-	
 	\includegraphics[height=1.5in, width=3in]{total_flops}
 	\caption{total gflops, different colors represents using different matrix sizes}
 	\label{fig:totalflops}

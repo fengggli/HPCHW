@@ -1,0 +1,33 @@
+#!/bin/bash  
+#PBS -N summa
+#PBS -q debug_cpu 
+#PBS -j oe
+#PBS -l walltime=00:10:00
+#PBS -l nodes=2:ppn=32
+#PBS -o results/$PBS_JOBID.output
+
+module swap PrgEnv-gnu/5.2.82 PrgEnv-cray
+
+RESULTDIR=${PBS_O_WORKDIR}/results/${PBS_JOBID}
+
+mkdir -pv ${RESULTDIR}
+cd $PBS_O_WORKDIR
+
+# clear previous results
+
+# test different block sizes
+#for block_size in 32 64 128 256 512 1024
+
+for N in 1024 2048 
+do
+    for np in 4 16
+    do
+        mycase=N_${N}_np_${np}
+        echo "running case ${mycase} "
+        aprun -n ${np} run_summa ${N}  1>${RESULTDIR}/${mycase}.log 2>${RESULTDIR}/${mycase}.err
+    done
+done
+
+
+echo "finish now exit"
+

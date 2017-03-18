@@ -1,0 +1,13 @@
+1. communicator and broadcast
+2. derived datatypes
+
+summa implememtation using MPI,
+written by Feng Li on Feb 2017, in Lab3 of CSCI HPC
+
+instructions
+    1. make
+    2. qsub run_lab3.job
+
+Report:
+    in docs/lab3_report
+
