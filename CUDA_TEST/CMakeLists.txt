@@ -1,8 +1,5 @@
 cmake_minimum_required(VERSION 2.8)
-find_package(CUDA QUIET REQUIRED)
 project(cuda_example)
+find_package(CUDA QUIET REQUIRED)
 
-cuda_add_executable(
-   dot.cu
-   run_cuda.c
-    )
+cuda_add_executable(run_cuda dot.cu)

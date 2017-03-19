@@ -1,0 +1,22 @@
+#!/bin/bash  
+#PBS -N cuda_matr_mul_feng
+#PBS -q gpu 
+#PBS -j oe
+#PBS -l walltime=00:5:00
+#PBS -l nodes=1:ppn=1
+#PBS -o results/$PBS_JOBID.output
+#PBS -m n
+
+module load cudatoolkit
+
+
+#This job runs with 3 nodes  
+#ibrun in verbose mode will give binding detail  
+PBS_RESULTDIR=${PBS_O_WORKDIR}/results/${PBS_JOBID}
+
+mkdir -pv ${PBS_RESULTDIR}
+cd $PBS_O_WORKDIR
+
+
+#aprun -n 4 ${BUILD}/2_adios_write  &> ${PBS_RESULTDIR}/adios_write.log 
+aprun mat_mul &> ${PBS_RESULTDIR}/mat_mul.log
