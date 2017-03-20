@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/time.h>
-#include "cublas_v2.h"
+#include "myCuBlas.h"
 
 /*
 #define M  256
@@ -17,12 +17,10 @@
 
 #define thread_block_size 32
 
-#define KERNEL_1
-#ifndef KERNEL_1
-    #define WARP (32)
-#endif
+#define ENABLE_CUBLAS
 
-__global__ void beastDgemm( int K, double *dA, double *dB, double *dC);
+
+//__global__ void beastDgemm( int K, double *dA, double *dB, double *dC);
 __global__ void mat_mul(double *Ad, double *Bd, double *Cd);
 
 double get_cur_time() {
@@ -84,53 +82,32 @@ int verify(double *C, double *C_blas, int n){
     return 0;
 }
 
-// use cublas to calculate dgemm 
-//Note,
-//  this function is orginally from:
-//  https://solarianprogrammer.com/2012/05/31/matrix-multiplication-cuda-cublas-curand-thrust/
-void gpu_blas_mmul(double *C, double *A, double *B, int n) {
-    //int lda=n,ldb=n,ldc=n;
-    int m,k;
-    m = n; k = n;
-    const double alf = 1;
-    const double bet = 0;
-    const double *alpha = &alf;
-    const double *beta = &bet;
 
-    // Create a handle for CUBLAS
-    cublasHandle_t handle;
-    cublasCreate(&handle);
-
-    // Do the actual multiplication
-    //cublasDgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
-    cublasDgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, n, m, k, alpha, B, n, A, k, beta, C, n);
-
-    // Destroy the handle
-    cublasDestroy(handle);
-}
 
 int main()
 {
     double  *A, *B, *C, *D;
     double  *Ad, *Bd, *Cd;
 
-#ifndef KERNEL_1
-    dim3 dimGrid(M/WARP, N/WARP);
-    dim3 dimBlock(WARP);
-#else
     dim3   dimBlock(thread_block_size,thread_block_size);
     dim3   dimGrid(M/thread_block_size,N/thread_block_size);
-#endif
 
     // timer
     double t1, t2;
     double t_transfer_1, t_transfer_2, t_comp, t_alloc, t_free, t_total;
-    double t_comp_cublas;
     double t_start, t_end;
+
+    // cublas
+#ifdef ENABLE_CUBLAS
+    cublasHandle_t handle; 
+    init_cublas(&handle);
+    double t_comp_cublas;
+#endif
 
 
 
     printf("start!\n");
+    printf("matrix size %d, thread block size %d\n",thread_block_size);
     if(init_matrix(&B, N, 1) == 0){
         printf("\trandom matrix B is generated \n");
     }
@@ -147,25 +124,6 @@ int main()
     if(init_matrix(&D, N, 0) == 0){
         printf("\t D is init with 0\n");
     }
-
-
-    /* First, compute D=AB on the host CPU. */
-    t1 = get_cur_time();
-    /*
-    for(i=0;i<N;i++) {
-        for(j=0;j<N;j++) {
-            D[i*N+j]=0;
-            for(k=0;k<N;k++) {
-                D[i*N+j] += A[i*N+k]*B[k*N+j];
-            }
-        }
-    }
-    */
-
-    gpu_blas_mmul(D, A, B, N);
-    t2 = get_cur_time();
-    t_comp_cublas = t2-t1;
-
     
     //gpu_blas_mmul(D, A, B, N);
 
@@ -188,13 +146,8 @@ int main()
     t_transfer_1 = t2-t1;
     printf("\tdata copied to deivce memory\n");
 
-    t1 = get_cur_time();
     // start kernel 
-#ifndef KERNEL_1
-    beastDgemm<<<dimGrid,dimBlock>>>(N, Ad,Bd,Cd);
-#else
     mat_mul<<<dimGrid,dimBlock>>>(Ad,Bd,Cd);
-#endif
     t2 = get_cur_time();
     t_comp = t2 -t1;
     printf("\tcuda computation completed\n");
@@ -206,8 +159,29 @@ int main()
     t_transfer_2 = t2-t1;
     printf("\tdata copied back to host memory\n");
 
-    // free divice memory
+#ifdef ENABLE_CUBLAS
+    // cublas version */
+    t1 = get_cur_time();
+    gpu_blas_mmul(&handle, Cd, Ad, Bd, N);
+    t2 = get_cur_time();
+    t_comp_cublas = t2-t1;
+    t1 = get_cur_time();
+    cudaMemcpy(D,Cd,M*N*sizeof(double),cudaMemcpyDeviceToHost);
+    finalize_cublas(&handle);
+#else
+    int i, j, k;
+    for(i=0;i<N;i++) {
+        for(j=0;j<N;j++) {
+            D[i*N+j]=0;
+            for(k=0;k<N;k++) {
+                D[i*N+j] += A[i*N+k]*B[k*N+j];
+            }
+        }
+    }
+    
+#endif
 
+    // free divice memory
     t1 = get_cur_time();
     cudaFree(Ad);
     cudaFree(Bd);
@@ -217,6 +191,7 @@ int main()
 
     t_end =  t2;
 
+
     // verify results
     printf("***********************\n");
     printf("finished\n");
@@ -224,49 +199,17 @@ int main()
         double n = N;
         double scalar = 2*n*n*n*(1E-9);
         double gflops = scalar/t_comp;
-        t_total = t_transfer_1 + t_transfer_2 + t_comp + t_free;
+        t_total = t_alloc+t_transfer_1 + t_transfer_2 + t_comp + t_free;
         printf("\tt_alloc\tt_transfer_1\tt_transfer_2\tt_comp\tt_free\tt_total\tgflops\n");
         printf("\t%f\t%f\t%f\t%f\t%f\t%f\t%f\n",t_alloc, t_transfer_1, t_transfer_2,t_comp,t_free,t_total, gflops);
+#ifdef ENABLE_CUBLAS
         printf("\tcublas total time %f\n", t_comp_cublas);
-        printf("\tmy dgemm total time %f\n", t_end- t_start);
+#endif
     }
     else{
         printf("\tnot correct\n");
     }
 }
-
-#ifndef KERNEL_1
-__global__ void beastDgemm( int K, double *dA, double *dB, double *dC){
-    int n, k, kk;
-    int mm = blockIdx.x*WARP;
-    int nn = blockIdx.y*WARP;
-    int idx = threadIdx.x;
-    __shared__ float sB[WARP];
-    float rA, rC[WARP];
-
-#pragma unroll
-    for(n=0; n < WARP; n++){
-        rC[n] = 0;
-    }
-
-    // each thread computes 1 row
-    for(kk = 0; kk < K; kk += WARP){
-#pragma unroll
-        for(k = 0; k < WARP; k++){
-            rA = dA[mm+idx + (k+kk)*K];
-            sB[idx] = dB[nn+idx + (k+kk)*K];
-
-#pragma unroll
-            for(n = 0 ; n < WARP; n++)
-                rC[n] += rA*sB[n];
-        }
-    }
-
-#pragma unroll
-    for(n = 0; n< WARP;n++)
-        dC[mm+idx + (n+nn)*K] = rC[n];
-}
-#endif
 
 /*
  * SUMMA using CUDA
