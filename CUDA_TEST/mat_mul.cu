@@ -15,10 +15,12 @@
 #define P  1024
 #define N  1024
 
-#define WARP (32)
 #define thread_block_size 32
 
 #define KERNEL_1
+#ifndef KERNEL_1
+    #define WARP (32)
+#endif
 
 __global__ void beastDgemm( int K, double *dA, double *dB, double *dC);
 __global__ void mat_mul(double *Ad, double *Bd, double *Cd);
@@ -81,6 +83,11 @@ int verify(double *C, double *C_blas, int n){
     }
     return 0;
 }
+
+// use cublas to calculate dgemm 
+//Note,
+//  this function is orginally from:
+//  https://solarianprogrammer.com/2012/05/31/matrix-multiplication-cuda-cublas-curand-thrust/
 void gpu_blas_mmul(double *C, double *A, double *B, int n) {
     //int lda=n,ldb=n,ldc=n;
     int m,k;
@@ -117,8 +124,9 @@ int main()
 
     // timer
     double t1, t2;
-    double t_transfer_1, t_transfer_2, t_comp, t_alloc, t_total;
+    double t_transfer_1, t_transfer_2, t_comp, t_alloc, t_free, t_total;
     double t_comp_cublas;
+    double t_start, t_end;
 
 
 
@@ -163,6 +171,8 @@ int main()
 
     // allocate device memory 
     t1 = get_cur_time();
+    t_start = t1;
+
     cudaMalloc(&Ad,(size_t)(M*P*sizeof(double)));
     cudaMalloc(&Bd,(size_t)(P*N*sizeof(double)));
     cudaMalloc(&Cd,(size_t)(M*N*sizeof(double)));
@@ -197,9 +207,15 @@ int main()
     printf("\tdata copied back to host memory\n");
 
     // free divice memory
+
+    t1 = get_cur_time();
     cudaFree(Ad);
     cudaFree(Bd);
     cudaFree(Cd);
+    t2 = get_cur_time();
+    t_free = t2-t1;
+
+    t_end =  t2;
 
     // verify results
     printf("***********************\n");
@@ -208,16 +224,18 @@ int main()
         double n = N;
         double scalar = 2*n*n*n*(1E-9);
         double gflops = scalar/t_comp;
-        t_total = t_transfer_1 + t_transfer_2 + t_comp;
-        printf("\tt_alloc\tt_transfer_1\tt_transfer_2\tt_comp\tt_total\tgflops\n");
-        printf("\t%f\t%f\t%f\t%f\t%f\t%f\n",t_alloc, t_transfer_1, t_transfer_2,t_comp,t_total, gflops);
-        printf("\tcublas computation time %f\n", t_comp_cublas);
+        t_total = t_transfer_1 + t_transfer_2 + t_comp + t_free;
+        printf("\tt_alloc\tt_transfer_1\tt_transfer_2\tt_comp\tt_free\tt_total\tgflops\n");
+        printf("\t%f\t%f\t%f\t%f\t%f\t%f\t%f\n",t_alloc, t_transfer_1, t_transfer_2,t_comp,t_free,t_total, gflops);
+        printf("\tcublas total time %f\n", t_comp_cublas);
+        printf("\tmy dgemm total time %f\n", t_end- t_start);
     }
     else{
         printf("\tnot correct\n");
     }
 }
 
+#ifndef KERNEL_1
 __global__ void beastDgemm( int K, double *dA, double *dB, double *dC){
     int n, k, kk;
     int mm = blockIdx.x*WARP;
@@ -248,6 +266,7 @@ __global__ void beastDgemm( int K, double *dA, double *dB, double *dC){
     for(n = 0; n< WARP;n++)
         dC[mm+idx + (n+nn)*K] = rC[n];
 }
+#endif
 
 /*
  * SUMMA using CUDA
