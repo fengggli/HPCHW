@@ -107,7 +107,7 @@ int main()
 
 
     printf("start!\n");
-    printf("matrix size %d, thread block size %d\n",thread_block_size);
+    printf("matrix size %d, thread block size %d\n",N, thread_block_size);
     if(init_matrix(&B, N, 1) == 0){
         printf("\trandom matrix B is generated \n");
     }
@@ -147,6 +147,7 @@ int main()
     printf("\tdata copied to deivce memory\n");
 
     // start kernel 
+    t1 = get_cur_time();
     mat_mul<<<dimGrid,dimBlock>>>(Ad,Bd,Cd);
     t2 = get_cur_time();
     t_comp = t2 -t1;
@@ -165,7 +166,6 @@ int main()
     gpu_blas_mmul(&handle, Cd, Ad, Bd, N);
     t2 = get_cur_time();
     t_comp_cublas = t2-t1;
-    t1 = get_cur_time();
     cudaMemcpy(D,Cd,M*N*sizeof(double),cudaMemcpyDeviceToHost);
     finalize_cublas(&handle);
 #else
@@ -199,11 +199,12 @@ int main()
         double n = N;
         double scalar = 2*n*n*n*(1E-9);
         double gflops = scalar/t_comp;
+        double gflops_cublas = scalar/t_comp_cublas;
         t_total = t_alloc+t_transfer_1 + t_transfer_2 + t_comp + t_free;
         printf("\tt_alloc\tt_transfer_1\tt_transfer_2\tt_comp\tt_free\tt_total\tgflops\n");
         printf("\t%f\t%f\t%f\t%f\t%f\t%f\t%f\n",t_alloc, t_transfer_1, t_transfer_2,t_comp,t_free,t_total, gflops);
 #ifdef ENABLE_CUBLAS
-        printf("\tcublas total time %f\n", t_comp_cublas);
+        printf("\tcublas comp time %f, gflops %f\n", t_comp_cublas, gflops_cublas);
 #endif
     }
     else{
