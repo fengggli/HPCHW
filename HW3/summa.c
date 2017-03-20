@@ -264,6 +264,7 @@ int main(int argc, char * argv[]){
              * start main cal
              */
             for(k = 0; k < N/b; k+=1){
+
                 // check wheter I have the col
                 if(my_col == k*b/sub_N){
                     // prepare the col
