@@ -11,9 +11,9 @@
 #define thread_block_size 16
  */
 
-#define M  1024
-#define P  1024
-#define N  1024
+#define M  8192
+#define P  8192
+#define N  8192
 
 #define NUM_EXP (1)
 
@@ -27,7 +27,7 @@
 
 // timer
 double t1, t2;
-double t_transfer_1, t_transfer_2, t_comp, t_alloc, t_free, t_total, t_comp_cublas;
+double t_upld, t_comp, t_dnld, t_total, t_comp_cublas;
 
 
 
@@ -101,49 +101,60 @@ int verify(double *C, double *C_blas, int n){
 */
 void run_cuda_summa(double *C, double *A, double *B, int n){
         double  *Ad, *Bd, *Cd;
+        cudaEvent_t start_comp, stop_comp;
+        cudaEvent_t start_upld, stop_upld;
+        cudaEvent_t start_dnld, stop_dnld;
+        cudaEventCreate(&start_comp);
+        cudaEventCreate(&stop_comp);
+        cudaEventCreate(&start_upld);
+        cudaEventCreate(&stop_upld);
+        cudaEventCreate(&start_dnld);
+        cudaEventCreate(&stop_dnld);
 
 
         // allocate device memory 
-        t1 = get_cur_time();
         cudaMalloc(&Ad,(size_t)(M*P*sizeof(double)));
         cudaMalloc(&Bd,(size_t)(P*N*sizeof(double)));
         cudaMalloc(&Cd,(size_t)(M*N*sizeof(double)));
-        t2 = get_cur_time();
-        t_alloc += t2-t1;
-        printf("\tdeivce memory allocated in %f\n", t2-t1);
 
         // copy content to device memory
-        t1 = get_cur_time();
+        cudaEventRecord(start_upld);
         cudaMemcpy(Ad,A,M*P*sizeof(double),cudaMemcpyHostToDevice);
         cudaMemcpy(Bd,B,P*N*sizeof(double),cudaMemcpyHostToDevice);
-        t2 = get_cur_time();
-        t_transfer_1 += t2-t1;
-        printf("\tdata copied to device memory in %f\n", t2-t1);
+        cudaEventRecord(stop_upld);
 
-    
         // start kernel 
-        t1 = get_cur_time();
+        cudaEventRecord(start_comp);
         mat_mul<<<dimGrid,dimBlock>>>(Ad,Bd,Cd);
-        t2 = get_cur_time();
-        t_comp += t2 -t1;
-        printf("\tcuda summa computation completed in %f\n", t2-t1);
+        cudaEventRecord(stop_comp);
 
         // copy C back
-        t1 = get_cur_time();
+        cudaEventRecord(start_dnld);
         cudaMemcpy(C,Cd,M*N*sizeof(double),cudaMemcpyDeviceToHost);
-        t2 = get_cur_time();
-        t_transfer_2 += t2-t1;
-        printf("\tdata copied back to host memory in %f\n", t2-t1);
+        cudaEventRecord(stop_dnld);
+
+        cudaEventSynchronize(stop_dnld);
+        float time_eclapsed;
+        cudaEventElapsedTime(&time_eclapsed, start_upld, stop_upld);
+        t_upld += time_eclapsed/1000;
+        printf("\tuplad completed in %fs \n", time_eclapsed/1000);
+
+        cudaEventElapsedTime(&time_eclapsed, start_comp, stop_comp);
+        t_comp += time_eclapsed/1000;
+        printf("\tsumma computation in %fs \n", time_eclapsed/1000);
+
+        cudaEventElapsedTime(&time_eclapsed, start_dnld, stop_dnld);
+        t_dnld += time_eclapsed/1000;
+        printf("\tdownload complete in  %fs \n", time_eclapsed/1000);
+
+        cudaEventElapsedTime(&time_eclapsed, start_upld, stop_dnld);
+        t_total += time_eclapsed/1000;
+        printf("\t all complete in  %fs \n", time_eclapsed/1000);
 
 
-        // free device memory
-        t1 = get_cur_time();
         cudaFree(Ad);
         cudaFree(Bd);
         cudaFree(Cd);
-        t2 = get_cur_time();
-        t_free += t2-t1;
-        printf("\tdevice buffer freed in %f\n", t2-t1);
 }
 
 void run_cublas(double *C, double *A, double *B, int n){
@@ -156,45 +167,34 @@ void run_cublas(double *C, double *A, double *B, int n){
         init_cublas(&handle);
 
         // allocate device memory 
-        t1 = get_cur_time();
         cudaMalloc(&Ad,(size_t)(M*P*sizeof(double)));
         cudaMalloc(&Bd,(size_t)(P*N*sizeof(double)));
         cudaMalloc(&Cd,(size_t)(M*N*sizeof(double)));
-        t2 = get_cur_time();
-        printf("\tdeivce memory allocated in %f\n", t2-t1);
+        printf("\tdeivce memory allocated \n");
 
         // copy content to device memory
-        t1 = get_cur_time();
         cudaMemcpy(Ad,A,M*P*sizeof(double),cudaMemcpyHostToDevice);
         cudaMemcpy(Bd,B,P*N*sizeof(double),cudaMemcpyHostToDevice);
-        t2 = get_cur_time();
-        printf("\tdata copied to device memory in %f\n", t2-t1);
 
     
        // cublas version */
         cudaEventRecord(start);
         gpu_blas_mmul(&handle, Cd, Ad, Bd, N);
         cudaEventRecord(stop);
-               // copy C back
+        // copy C back
         cudaMemcpy(C,Cd,M*N*sizeof(double),cudaMemcpyDeviceToHost);
 
         cudaEventSynchronize(stop);
-        double time_eclapsed;
+        float time_eclapsed;
         cudaEventElapsedTime(&time_eclapsed, start, stop);
-        t_comp_cublas += time_eclapsed;
-        printf("\tcublas computation completed in %f\n", time_eclapsed);
+        t_comp_cublas += time_eclapsed/1000;
+        printf("\tcublas computation completed in %f\n", time_eclapsed/1000);
 
-        t2 = get_cur_time();
-        printf("\tdata copied back to host memory in %f\n", t2-t1);
-
-        // free device memory
-        t1 = get_cur_time();
         cudaFree(Ad);
         cudaFree(Bd);
         cudaFree(Cd);
-        t2 = get_cur_time();
         finalize_cublas(&handle);
-        printf("\tdevice buffer freed in %f\n", t2-t1);
+        printf("\tdevice buffer freed");
 }
 
 
@@ -209,12 +209,7 @@ int main()
     dimBlock = dim3(thread_block_size,thread_block_size);
     dimGrid = dim3(M/thread_block_size,N/thread_block_size);
 
-
-    t_transfer_1 = 0; 
-    t_transfer_2 = 0;
     t_comp = 0;
-    t_alloc = 0;
-    t_free = 0;
     t_comp_cublas = 0;
     t_total = 0;
     
@@ -222,7 +217,6 @@ int main()
         printf("start experiemnt %d!\n",  exp);
         printf("matrix size %d, thread block size %d\n",N, thread_block_size);
         // cublas
-
 
         if(init_matrix(&B, N, 1) == 0){
             printf("\trandom matrix B is generated \n");
@@ -242,10 +236,8 @@ int main()
         }
         
         //gpu_blas_mmul(D, A, B, N);
-
-
-        run_cuda_summa(C, A, B, N);
         run_cublas(D, A, B, N);
+        run_cuda_summa(C, A, B, N);
 
         if(verify(C, D, N) != 0){
             exit(-1);
@@ -257,21 +249,24 @@ int main()
 
     printf("***********************\n");
     printf("%d experiment finished \n", NUM_EXP);
-    t_transfer_1 = t_transfer_1/NUM_EXP; 
-    t_transfer_2 = t_transfer_2/NUM_EXP;
+    //t_transfer_1 = t_transfer_1/NUM_EXP; 
+    //t_transfer_2 = t_transfer_2/NUM_EXP;
     t_comp = t_comp/NUM_EXP;
-    t_alloc = t_alloc/NUM_EXP;
-    t_free = t_free/NUM_EXP;
+    //t_alloc = t_alloc/NUM_EXP;
+    //t_free = t_free/NUM_EXP;
     t_comp_cublas  = t_comp_cublas/NUM_EXP;
 
-    t_total = t_alloc+t_transfer_1 + t_transfer_2 + t_comp + t_free;
+    //t_total = t_alloc+t_transfer_1 + t_transfer_2 + t_comp + t_free;
 
     double n = N;
     double scalar = 2*n*n*n*(1E-9);
     double gflops = scalar/t_comp;
     double gflops_cublas = scalar/t_comp_cublas;
-    printf("\tm_size thrd_blk_size t_alloc t_transfer_1 t_transfer_2 t_comp t_free t_total gflops t_comp_blas blas_gflops\n");
-    printf("\t%d %d %f %f %f %f %f %f %f %f %f\n",N, thread_block_size, t_alloc, t_transfer_1, t_transfer_2,t_comp,t_free,t_total, gflops, t_comp_cublas, gflops_cublas);
+    //printf("\tm_size thrd_blk_size t_alloc t_transfer_1 t_transfer_2 t_comp t_free t_total gflops t_comp_blas blas_gflops\n");
+    //printf("\t%d %d %f %f %f %f %f %f %f %f %f\n",N, thread_block_size, t_alloc, t_transfer_1, t_transfer_2,t_comp,t_free,t_total, gflops, t_comp_cublas, gflops_cublas);
+
+    printf("\tm_size thrd_blk_size t_comp t gflops t_comp_blas blas_gflops t_uplad t_dnld t_total\n");
+    printf("\t%d %d %lf %lf %lf %lf %lf %lf %lf\n",N, thread_block_size,t_comp, gflops, t_comp_cublas, gflops_cublas, t_upld, t_dnld,t_total);
     return 0;
 }
 
