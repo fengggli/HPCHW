@@ -15,9 +15,20 @@
 #define P  1024
 #define N  1024
 
+#define NUM_EXP (1)
+
 #define thread_block_size 32
 
 #define ENABLE_CUBLAS
+
+    dim3   dimBlock;
+    dim3   dimGrid;
+
+
+// timer
+double t1, t2;
+double t_transfer_1, t_transfer_2, t_comp, t_alloc, t_free, t_total, t_comp_cublas;
+
 
 
 //__global__ void beastDgemm( int K, double *dA, double *dB, double *dC);
@@ -33,6 +44,7 @@ double get_cur_time() {
 
     return cur_time;
 }
+
 
 /*
  * generate a random matrix with double value -1~1
@@ -82,134 +94,185 @@ int verify(double *C, double *C_blas, int n){
     return 0;
 }
 
+/*run cuda code
+* type
+*   0: cuda suma   
+*   1: cublas
+*/
+void run_cuda_summa(double *C, double *A, double *B, int n){
+        double  *Ad, *Bd, *Cd;
+
+
+        // allocate device memory 
+        t1 = get_cur_time();
+        cudaMalloc(&Ad,(size_t)(M*P*sizeof(double)));
+        cudaMalloc(&Bd,(size_t)(P*N*sizeof(double)));
+        cudaMalloc(&Cd,(size_t)(M*N*sizeof(double)));
+        t2 = get_cur_time();
+        t_alloc += t2-t1;
+        printf("\tdeivce memory allocated in %f\n", t2-t1);
+
+        // copy content to device memory
+        t1 = get_cur_time();
+        cudaMemcpy(Ad,A,M*P*sizeof(double),cudaMemcpyHostToDevice);
+        cudaMemcpy(Bd,B,P*N*sizeof(double),cudaMemcpyHostToDevice);
+        t2 = get_cur_time();
+        t_transfer_1 += t2-t1;
+        printf("\tdata copied to device memory in %f\n", t2-t1);
+
+    
+        // start kernel 
+        t1 = get_cur_time();
+        mat_mul<<<dimGrid,dimBlock>>>(Ad,Bd,Cd);
+        t2 = get_cur_time();
+        t_comp += t2 -t1;
+        printf("\tcuda summa computation completed in %f\n", t2-t1);
+
+        // copy C back
+        t1 = get_cur_time();
+        cudaMemcpy(C,Cd,M*N*sizeof(double),cudaMemcpyDeviceToHost);
+        t2 = get_cur_time();
+        t_transfer_2 += t2-t1;
+        printf("\tdata copied back to host memory in %f\n", t2-t1);
+
+
+        // free device memory
+        t1 = get_cur_time();
+        cudaFree(Ad);
+        cudaFree(Bd);
+        cudaFree(Cd);
+        t2 = get_cur_time();
+        t_free += t2-t1;
+        printf("\tdevice buffer freed in %f\n", t2-t1);
+}
+
+void run_cublas(double *C, double *A, double *B, int n){
+        double  *Ad, *Bd, *Cd;
+        cudaEvent_t start, stop;
+        cudaEventCreate(&start);
+        cudaEventCreate(&stop);
+
+        cublasHandle_t handle; 
+        init_cublas(&handle);
+
+        // allocate device memory 
+        t1 = get_cur_time();
+        cudaMalloc(&Ad,(size_t)(M*P*sizeof(double)));
+        cudaMalloc(&Bd,(size_t)(P*N*sizeof(double)));
+        cudaMalloc(&Cd,(size_t)(M*N*sizeof(double)));
+        t2 = get_cur_time();
+        printf("\tdeivce memory allocated in %f\n", t2-t1);
+
+        // copy content to device memory
+        t1 = get_cur_time();
+        cudaMemcpy(Ad,A,M*P*sizeof(double),cudaMemcpyHostToDevice);
+        cudaMemcpy(Bd,B,P*N*sizeof(double),cudaMemcpyHostToDevice);
+        t2 = get_cur_time();
+        printf("\tdata copied to device memory in %f\n", t2-t1);
+
+    
+       // cublas version */
+        cudaEventRecord(start);
+        gpu_blas_mmul(&handle, Cd, Ad, Bd, N);
+        cudaEventRecord(stop);
+               // copy C back
+        cudaMemcpy(C,Cd,M*N*sizeof(double),cudaMemcpyDeviceToHost);
+
+        cudaEventSynchronize(stop);
+        double time_eclapsed;
+        cudaEventElapsedTime(&time_eclapsed, start, stop);
+        t_comp_cublas += time_eclapsed;
+        printf("\tcublas computation completed in %f\n", time_eclapsed);
+
+        t2 = get_cur_time();
+        printf("\tdata copied back to host memory in %f\n", t2-t1);
+
+        // free device memory
+        t1 = get_cur_time();
+        cudaFree(Ad);
+        cudaFree(Bd);
+        cudaFree(Cd);
+        t2 = get_cur_time();
+        finalize_cublas(&handle);
+        printf("\tdevice buffer freed in %f\n", t2-t1);
+}
 
 
 int main()
 {
+    int exp;
+
     double  *A, *B, *C, *D;
-    double  *Ad, *Bd, *Cd;
 
-    dim3   dimBlock(thread_block_size,thread_block_size);
-    dim3   dimGrid(M/thread_block_size,N/thread_block_size);
+    // configuration here
 
-    // timer
-    double t1, t2;
-    double t_transfer_1, t_transfer_2, t_comp, t_alloc, t_free, t_total;
-    double t_start, t_end;
-
-    // cublas
-#ifdef ENABLE_CUBLAS
-    cublasHandle_t handle; 
-    init_cublas(&handle);
-    double t_comp_cublas;
-#endif
+    dimBlock = dim3(thread_block_size,thread_block_size);
+    dimGrid = dim3(M/thread_block_size,N/thread_block_size);
 
 
-
-    printf("start!\n");
-    printf("matrix size %d, thread block size %d\n",N, thread_block_size);
-    if(init_matrix(&B, N, 1) == 0){
-        printf("\trandom matrix B is generated \n");
-    }
-    if(init_matrix(&A, N, 1) == 0){
-        printf("\trandom matrix A is generated \n");
-    }
-
-    // cuda results
-    if(init_matrix(&C, N, 0) == 0){
-        printf("\t C is init with 0\n");
-    }
-
-    // naiive results
-    if(init_matrix(&D, N, 0) == 0){
-        printf("\t D is init with 0\n");
-    }
+    t_transfer_1 = 0; 
+    t_transfer_2 = 0;
+    t_comp = 0;
+    t_alloc = 0;
+    t_free = 0;
+    t_comp_cublas = 0;
+    t_total = 0;
     
-    //gpu_blas_mmul(D, A, B, N);
+    for(exp =0; exp <NUM_EXP; exp++){
+        printf("start experiemnt %d!\n",  exp);
+        printf("matrix size %d, thread block size %d\n",N, thread_block_size);
+        // cublas
 
-    // allocate device memory 
-    t1 = get_cur_time();
-    t_start = t1;
 
-    cudaMalloc(&Ad,(size_t)(M*P*sizeof(double)));
-    cudaMalloc(&Bd,(size_t)(P*N*sizeof(double)));
-    cudaMalloc(&Cd,(size_t)(M*N*sizeof(double)));
-    t2 = get_cur_time();
-    t_alloc = t2-t1;
-    printf("\tdeivce memory allocated\n");
+        if(init_matrix(&B, N, 1) == 0){
+            printf("\trandom matrix B is generated \n");
+        }
+        if(init_matrix(&A, N, 1) == 0){
+            printf("\trandom matrix A is generated \n");
+        }
 
-    // copy content to device memory
-    t1 = get_cur_time();
-    cudaMemcpy(Ad,A,M*P*sizeof(double),cudaMemcpyHostToDevice);
-    cudaMemcpy(Bd,B,P*N*sizeof(double),cudaMemcpyHostToDevice);
-    t2 = get_cur_time();
-    t_transfer_1 = t2-t1;
-    printf("\tdata copied to deivce memory\n");
+        // cuda results
+        if(init_matrix(&C, N, 0) == 0){
+            printf("\t C is init with 0\n");
+        }
 
-    // start kernel 
-    t1 = get_cur_time();
-    mat_mul<<<dimGrid,dimBlock>>>(Ad,Bd,Cd);
-    t2 = get_cur_time();
-    t_comp = t2 -t1;
-    printf("\tcuda computation completed\n");
+        // naiive results
+        if(init_matrix(&D, N, 0) == 0){
+            printf("\t D is init with 0\n");
+        }
+        
+        //gpu_blas_mmul(D, A, B, N);
 
-    // copy C back
-    t1 = get_cur_time();
-    cudaMemcpy(C,Cd,M*N*sizeof(double),cudaMemcpyDeviceToHost);
-    t2 = get_cur_time();
-    t_transfer_2 = t2-t1;
-    printf("\tdata copied back to host memory\n");
 
-#ifdef ENABLE_CUBLAS
-    // cublas version */
-    t1 = get_cur_time();
-    gpu_blas_mmul(&handle, Cd, Ad, Bd, N);
-    t2 = get_cur_time();
-    t_comp_cublas = t2-t1;
-    cudaMemcpy(D,Cd,M*N*sizeof(double),cudaMemcpyDeviceToHost);
-    finalize_cublas(&handle);
-#else
-    int i, j, k;
-    for(i=0;i<N;i++) {
-        for(j=0;j<N;j++) {
-            D[i*N+j]=0;
-            for(k=0;k<N;k++) {
-                D[i*N+j] += A[i*N+k]*B[k*N+j];
-            }
+        run_cuda_summa(C, A, B, N);
+        run_cublas(D, A, B, N);
+
+        if(verify(C, D, N) != 0){
+            exit(-1);
         }
     }
-    
-#endif
-
-    // free divice memory
-    t1 = get_cur_time();
-    cudaFree(Ad);
-    cudaFree(Bd);
-    cudaFree(Cd);
-    t2 = get_cur_time();
-    t_free = t2-t1;
-
-    t_end =  t2;
 
 
     // verify results
+
     printf("***********************\n");
-    printf("finished\n");
-    if(verify(C, D, N) == 0){
-        double n = N;
-        double scalar = 2*n*n*n*(1E-9);
-        double gflops = scalar/t_comp;
-        double gflops_cublas = scalar/t_comp_cublas;
-        t_total = t_alloc+t_transfer_1 + t_transfer_2 + t_comp + t_free;
-        printf("\tt_alloc\tt_transfer_1\tt_transfer_2\tt_comp\tt_free\tt_total\tgflops\n");
-        printf("\t%f\t%f\t%f\t%f\t%f\t%f\t%f\n",t_alloc, t_transfer_1, t_transfer_2,t_comp,t_free,t_total, gflops);
-#ifdef ENABLE_CUBLAS
-        printf("\tcublas comp time %f, gflops %f\n", t_comp_cublas, gflops_cublas);
-#endif
-    }
-    else{
-        printf("\tnot correct\n");
-    }
+    printf("%d experiment finished \n", NUM_EXP);
+    t_transfer_1 = t_transfer_1/NUM_EXP; 
+    t_transfer_2 = t_transfer_2/NUM_EXP;
+    t_comp = t_comp/NUM_EXP;
+    t_alloc = t_alloc/NUM_EXP;
+    t_free = t_free/NUM_EXP;
+    t_comp_cublas  = t_comp_cublas/NUM_EXP;
+
+    t_total = t_alloc+t_transfer_1 + t_transfer_2 + t_comp + t_free;
+
+    double n = N;
+    double scalar = 2*n*n*n*(1E-9);
+    double gflops = scalar/t_comp;
+    double gflops_cublas = scalar/t_comp_cublas;
+    printf("\tm_size thrd_blk_size t_alloc t_transfer_1 t_transfer_2 t_comp t_free t_total gflops t_comp_blas blas_gflops\n");
+    printf("\t%d %d %f %f %f %f %f %f %f %f %f\n",N, thread_block_size, t_alloc, t_transfer_1, t_transfer_2,t_comp,t_free,t_total, gflops, t_comp_cublas, gflops_cublas);
+    return 0;
 }
 
 /*
@@ -238,7 +301,7 @@ __global__ void mat_mul(double *Ad, double *Bd, double *Cd) {
         // make sure local A and B are filled
         __syncthreads();
 
-        // local matrix multiplication
+        // local matrix muliplication
         for(k=0; k<thread_block_size; k++) {
             c += As[i][k] * Bs[k][j];
         }

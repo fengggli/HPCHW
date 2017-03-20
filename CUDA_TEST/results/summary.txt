@@ -1,3 +1,5 @@
 
 1642459
     if no cublas, gflops is very high, compuation time is mall
+1642542
+    if run 3 times, compuatation time is greated reduced, why?
