@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <sys/time.h>
+#include "cublas_v2.h"
 
 /*
 #define M  256
@@ -80,28 +81,47 @@ int verify(double *C, double *C_blas, int n){
     }
     return 0;
 }
+void gpu_blas_mmul(double *C, double *A, double *B, int n) {
+    //int lda=n,ldb=n,ldc=n;
+    int m,k;
+    m = n; k = n;
+    const double alf = 1;
+    const double bet = 0;
+    const double *alpha = &alf;
+    const double *beta = &bet;
+
+    // Create a handle for CUBLAS
+    cublasHandle_t handle;
+    cublasCreate(&handle);
+
+    // Do the actual multiplication
+    //cublasDgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, m, n, k, alpha, A, lda, B, ldb, beta, C, ldc);
+    cublasDgemm(handle, CUBLAS_OP_N, CUBLAS_OP_N, n, m, k, alpha, B, n, A, k, beta, C, n);
+
+    // Destroy the handle
+    cublasDestroy(handle);
+}
 
 int main()
 {
     double  *A, *B, *C, *D;
     double  *Ad, *Bd, *Cd;
-    
+
 #ifndef KERNEL_1
-        dim3 dimGrid(M/WARP, N/WARP);
-        dim3 dimBlock(WARP);
+    dim3 dimGrid(M/WARP, N/WARP);
+    dim3 dimBlock(WARP);
 #else
-        dim3   dimBlock(thread_block_size,thread_block_size);
-        dim3   dimGrid(M/thread_block_size,N/thread_block_size);
+    dim3   dimBlock(thread_block_size,thread_block_size);
+    dim3   dimGrid(M/thread_block_size,N/thread_block_size);
 #endif
 
     // timer
     double t1, t2;
     double t_transfer_1, t_transfer_2, t_comp, t_alloc, t_total;
+    double t_comp_cublas;
 
 
 
-    int    i;
-    int    j,k;
     printf("start!\n");
     if(init_matrix(&B, N, 1) == 0){
         printf("\trandom matrix B is generated \n");
@@ -123,6 +143,7 @@ int main()
 
     /* First, compute D=AB on the host CPU. */
     t1 = get_cur_time();
+    /*
     for(i=0;i<N;i++) {
         for(j=0;j<N;j++) {
             D[i*N+j]=0;
@@ -131,7 +152,14 @@ int main()
             }
         }
     }
-    printf("\t Naiive version completed in \n");
+    */
+
+    gpu_blas_mmul(D, A, B, N);
+    t2 = get_cur_time();
+    t_comp_cublas = t2-t1;
+
+    
+    //gpu_blas_mmul(D, A, B, N);
 
     // allocate device memory 
     t1 = get_cur_time();
@@ -153,9 +181,9 @@ int main()
     t1 = get_cur_time();
     // start kernel 
 #ifndef KERNEL_1
-        beastDgemm<<<dimGrid,dimBlock>>>(N, Ad,Bd,Cd);
+    beastDgemm<<<dimGrid,dimBlock>>>(N, Ad,Bd,Cd);
 #else
-        mat_mul<<<dimGrid,dimBlock>>>(Ad,Bd,Cd);
+    mat_mul<<<dimGrid,dimBlock>>>(Ad,Bd,Cd);
 #endif
     t2 = get_cur_time();
     t_comp = t2 -t1;
@@ -183,6 +211,7 @@ int main()
         t_total = t_transfer_1 + t_transfer_2 + t_comp;
         printf("\tt_alloc\tt_transfer_1\tt_transfer_2\tt_comp\tt_total\tgflops\n");
         printf("\t%f\t%f\t%f\t%f\t%f\t%f\n",t_alloc, t_transfer_1, t_transfer_2,t_comp,t_total, gflops);
+        printf("\tcublas computation time %f\n", t_comp_cublas);
     }
     else{
         printf("\tnot correct\n");
@@ -197,25 +226,25 @@ __global__ void beastDgemm( int K, double *dA, double *dB, double *dC){
     __shared__ float sB[WARP];
     float rA, rC[WARP];
 
-    #pragma unroll
+#pragma unroll
     for(n=0; n < WARP; n++){
         rC[n] = 0;
     }
-    
+
     // each thread computes 1 row
     for(kk = 0; kk < K; kk += WARP){
-        #pragma unroll
+#pragma unroll
         for(k = 0; k < WARP; k++){
             rA = dA[mm+idx + (k+kk)*K];
             sB[idx] = dB[nn+idx + (k+kk)*K];
-            
-            #pragma unroll
+
+#pragma unroll
             for(n = 0 ; n < WARP; n++)
                 rC[n] += rA*sB[n];
         }
     }
 
-    #pragma unroll
+#pragma unroll
     for(n = 0; n< WARP;n++)
         dC[mm+idx + (n+nn)*K] = rC[n];
 }
