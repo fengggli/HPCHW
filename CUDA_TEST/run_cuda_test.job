@@ -17,6 +17,12 @@ PBS_RESULTDIR=${PBS_O_WORKDIR}/results/${PBS_JOBID}
 mkdir -pv ${PBS_RESULTDIR}
 cd $PBS_O_WORKDIR
 
-
-#aprun -n 4 ${BUILD}/2_adios_write  &> ${PBS_RESULTDIR}/adios_write.log 
-aprun mat_mul &> ${PBS_RESULTDIR}/mat_mul.log
+for N in 256 512 1024 2048 4096 8192
+do
+    for thread_block_size in 1 4 8 16 32
+    do
+    #aprun -n 4 ${BUILD}/2_adios_write  &> ${PBS_RESULTDIR}/adios_write.log 
+    aprun bin/mat_mul_N_${N}_thrd_${thread_block_size} >> ${PBS_RESULTDIR}/mat_mul.log
+    echo "N=${N} thrd=${thread_block_size} complete"
+    done
+done

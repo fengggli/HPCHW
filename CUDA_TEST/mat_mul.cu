@@ -10,14 +10,17 @@
 #define N   64
 #define thread_block_size 16
  */
+#ifndef N
+#error "matrix size required"
+#endif
+#ifndef thread_block_size
+#error "thread block size required"
+#endif
 
-#define M  8192
-#define P  8192
-#define N  8192
+#define M (N) 
+#define P (N) 
 
 #define NUM_EXP (1)
-
-#define thread_block_size 32
 
 #define ENABLE_CUBLAS
 
@@ -287,10 +290,10 @@ __global__ void mat_mul(double *Ad, double *Bd, double *Cd) {
     __shared__  double Bs[thread_block_size][thread_block_size];
 
     for(p=0;p<P/thread_block_size;p++) {
-        // this is the broadcast step,
-        // p-th colblock will broadcast in row direction;
-        // p-th rowblock will broadcast in column direction
+
+        // p-th colblock will broadcast in row direction
         As[i][j] = Ad[(m*thread_block_size+i)*P+(p*thread_block_size+j)];
+        // p-th rowblock will broadcast in column direction
         Bs[i][j] = Bd[(p*thread_block_size+i)*N+(n*thread_block_size+j)];
 
         // make sure local A and B are filled
@@ -300,7 +303,6 @@ __global__ void mat_mul(double *Ad, double *Bd, double *Cd) {
         for(k=0; k<thread_block_size; k++) {
             c += As[i][k] * Bs[k][j];
         }
-
         // this is must!
         __syncthreads();
     }
