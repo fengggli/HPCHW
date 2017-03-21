@@ -1,0 +1,13 @@
+SUMMA implementation with CUDA programming
+Feng Li
+2017 Mar 20
+
+
+Build:
+    (this will build binaries for different configurations, time consuming...)
+    mkdir bin/
+    module load cudatoolkit
+    compile.sh
+run 
+    mkdir results
+    qsub run_cuda_test.job
